@@ -5,7 +5,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const fs = require('fs');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -22,9 +22,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get('/msgs', (req, res) => {
-  res.send('Hello World');
-})
+app.get('/user', (req, res) => {
+    fs.readFile('data.json', 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(JSON.parse(data));
+        }
+    }
+    )});
 
 
 app.post('/player', (req, res) => {
