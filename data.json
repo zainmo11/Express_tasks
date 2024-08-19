@@ -1,12 +1,26 @@
-{
-  "users": [
-    {
-      "name": "John",
-      "age": 30
-    },
-    {
-      "name": "Jane",
-      "age": 25
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "Alice"
+  },
+  {
+    "id": 2,
+    "name": "Bob"
+  },
+  {
+    "id": 3,
+    "name": "JohnDoe"
+  },
+  {
+    "id": 4,
+    "name": "JohnDoe"
+  },
+  {
+    "id": 5,
+    "name": "JohnDoe"
+  },
+  {
+    "id": 6,
+    "name": "JohnDoe"
+  }
+]

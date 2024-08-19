@@ -22,6 +22,40 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+//find the max number of the id
+app.post('/player/:name', (req, res) => {
+    fs.readFile('data.json', 'utf8', (err, data) => {
+        if (err) {
+            res.status(500).send('Error reading data file');
+            return;
+        }
+
+        let players;
+        players = JSON.parse(data);
+
+        let maxId = 0;
+        for (const player of players) {
+            if (player.id > maxId) {
+                maxId = player.id;
+            }
+        }
+
+        const newPlayer = {
+            id: maxId + 1,
+            name: req.params.name
+        };
+
+        players.push(newPlayer);
+
+        fs.writeFile('data.json', JSON.stringify(players, null, 2), (err) => {
+            if (err) {
+                res.status(500).send('Error writing data file');
+            } else {
+                res.status(201).send(newPlayer);
+            }
+        });
+    });
+});
 app.get('/user', (req, res) => {
     fs.readFile('data.json', 'utf8', (err, data) => {
         if (err) {
@@ -30,7 +64,7 @@ app.get('/user', (req, res) => {
             res.status(200).send(JSON.parse(data));
         }
     }
-    )});
+    )})
 
 
 app.post('/player', (req, res) => {
@@ -39,16 +73,61 @@ app.post('/player', (req, res) => {
 
 
 app.put('/player/:id', (req, res) => {
-    res.json({
-        id: req.params.id,
-        name: req.body.name
-    });
+     fs.readFile('data.json', 'utf8', (err, data) => {
+         if(err) {
+             res.status(500).send('Error reading data file');
+             return;
+         }
+         else {
+                let players;
+                players = JSON.parse(data);
+                let player = players.find(p => p.id === parseInt(req.params.id));
+                if(player) {
+                    player.name = req.body.name;
+                    fs.writeFile('data.json', JSON.stringify(players, null, 2), (err) => {
+                        if(err) {
+                            res.status(500).send('Error writing data file');
+                        }
+                        else {
+                            res.status(200).send(player);
+                        }
+                    });
+                }
+                else {
+                    res.status(404).send('Player not found');
+         }
+
+     }
 }
-)
+)})
 
 // delete
 app.delete('/player/:id', (req, res) => {
-    res.send('Deleted')})
+    fs.readFile('data.json', 'utf8', (err, data) => {
+        if(err) {
+            res.status(500).send('Error reading data file');
+            return;
+        }
+        else {
+            let players;
+            players = JSON.parse(data);
+            let player = players.find(p => p.id === parseInt(req.params.id));
+            if(player) {
+                players = players.filter(p => p.id !== parseInt(req.params.id));
+                fs.writeFile('data.json', JSON.stringify(players, null, 2), (err) => {
+                    if(err) {
+                        res.status(500).send('Error writing data file');
+                    }
+                    else {
+                        res.status(200).send(player);
+                    }
+                });
+            }
+            else {
+                res.status(404).send('Player not found');
+            }
+        }
+    })})
     ;
 
   app.use('/', indexRouter);
