@@ -30,7 +30,17 @@ app.get('/msgs', (req, res) => {
 app.post('/player', (req, res) => {
   res.send(req.body);
 })
-app.use('/', indexRouter);
+
+
+app.put('/player/:id', (req, res) => {
+    res.json({
+        id: req.params.id,
+        name: req.body.name
+    });
+}
+)
+
+  app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
