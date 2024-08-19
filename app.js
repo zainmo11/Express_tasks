@@ -25,9 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/user', (req, res) => {
     fs.readFile('data.json', 'utf8', (err, data) => {
         if (err) {
-            console.log(err);
+            res.status(404).send(err);
         } else {
-            res.send(JSON.parse(data));
+            res.status(200).send(JSON.parse(data));
         }
     }
     )});
