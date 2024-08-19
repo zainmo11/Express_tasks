@@ -42,10 +42,7 @@ app.put('/player/:id', (req, res) => {
 
 // delete
 app.delete('/player/:id', (req, res) => {
-    res.json({
-        id: req.params.id,
-        name: req.body.name
-    })})
+    res.send('Deleted')})
     ;
 
   app.use('/', indexRouter);
