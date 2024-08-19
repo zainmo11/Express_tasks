@@ -40,6 +40,14 @@ app.put('/player/:id', (req, res) => {
 }
 )
 
+// delete
+app.delete('/player/:id', (req, res) => {
+    res.json({
+        id: req.params.id,
+        name: req.body.name
+    })})
+    ;
+
   app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
